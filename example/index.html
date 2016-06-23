@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Pick'em'all!</title>
+	<link rel="stylesheet" src="../dist/pickemall.min.css">
+	<style>
+		.color-boxes {
+			margin: 50px;
+		}
+		
+		.box {
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+		}
+	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+
+<body>
+	<div class="pickemall"></div>
+	<div class="color-boxes">
+		<div class="box" style="background: red"></div>
+		<div class="box" style="background: green"></div>
+		<div class="box" style="background: pink"></div>
+	</div>
+
+	<script src="../dist/pickemall.min.js"></script>
+	<script>
+		$(function() {
+			$('.pickemall').pickemall();
+		});
+	</script>
+</body>
+
+</html>
