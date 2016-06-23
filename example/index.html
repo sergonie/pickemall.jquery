@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Pick'em'all!</title>
-	<link rel="stylesheet" src="../dist/pickemall.min.css">
+	<link rel="stylesheet" href="../dist/pickemall.min.css">
 	<style>
 		.color-boxes {
 			margin: 50px;
@@ -15,23 +15,35 @@
 			width: 20px;
 			height: 20px;
 		}
+
+		#picked-color {
+			margin-top: 20px;
+		}
 	</style>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 
 <body>
-	<div class="pickemall"></div>
+	<div class="pickemall">Power</div>
+	<input type="text" id="picked-color">
 	<div class="color-boxes">
+		<h3>Test boxes</h3>
 		<div class="box" style="background: red"></div>
 		<div class="box" style="background: green"></div>
 		<div class="box" style="background: pink"></div>
+		<div class="box" style="background: yellow"></div>
 	</div>
 
 	<script src="../dist/pickemall.min.js"></script>
 	<script>
 		$(function() {
-			$('.pickemall').pickemall();
+			$('.pickemall').pickemall({
+				rgbResult: true,
+				onChange: function(color) {
+					$('#picked-color').val(color);
+				}
+			});
 		});
 	</script>
 </body>
