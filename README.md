@@ -26,3 +26,6 @@ $togglePicker.pickemall({
     onChange: <callback function for change picker handler> / <default shows value in console>
 }
 ```
+
+## Respects
+This plugin uses [html2canvas](https://github.com/niklasvh/html2canvas)
