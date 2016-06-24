@@ -3017,7 +3017,8 @@ _html2canvas.Renderer.Canvas = function(options) {
             rgbResult: false,
             onChange: function (color) {
                 console.log('Your picked color:', color);
-            }
+            },
+            debug: false
         };
 
         //setup settings
@@ -3060,6 +3061,9 @@ _html2canvas.Renderer.Canvas = function(options) {
                     //if not toggler
                     if (!$target.is($el)) {
                         html2canvas(document.body, {
+                            useCORS: true,
+                            logging: settings.debug,
+                            profile: settings.debug,
                             onrendered: function (canvas) {
                                 var
                                     rgb = canvas.getContext('2d').getImageData(e.pageX, e.pageY, 1, 1).data,

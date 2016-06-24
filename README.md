@@ -24,6 +24,7 @@ $togglePicker.pickemall({
     cursorPicker: <cursor type for picker> / <default "crosshair">,
     rgbResult: <if true then result returns like 'rgb(XXX, XXX, XXX)' else hex string '#XXXXX'> / <default "false">,
     onChange: <callback function for change picker handler> / <default shows value in console>
+    debug: <if true then shows some information in console> / <default: false>
 }
 ```
 
