@@ -23,6 +23,7 @@ $togglePicker.pickemall({
     activeClass: <class name for active button> / <default "pickemall__on">,
     cursorPicker: <cursor type for picker> / <default "crosshair">,
     rgbResult: <if true then result returns like 'rgb(XXX, XXX, XXX)' else hex string '#XXXXX'> / <default "false">,
+    screenCache: <if true - canvas (document screenshot) cache enabled> / <default - true>
     onChange: <callback function for change picker handler> / <default shows value in console>
     html2canvas: <html2canvas props> / <default {}> 
 }
