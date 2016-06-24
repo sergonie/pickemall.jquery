@@ -13,7 +13,8 @@
             onChange: function (color) {
                 console.log('Your picked color:', color);
             },
-            debug: false
+            debug: false,
+            html2canvas: {}
         };
 
         //setup settings
@@ -52,26 +53,27 @@
                 //if toggler active
                 if ($el.hasClass(settings.activeClass)) {
                     var $target = $(e.target);
-                    
+
+                    //setup html2canvas
+                    var html2canvasSettings = $.extend({}, {
+                        onrendered: function (canvas) {
+                            var
+                                rgb = canvas.getContext('2d').getImageData(e.pageX, e.pageY, 1, 1).data,
+                                rgbResult = 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')',
+                                hex = lib.rgbToHex(rgb[0], rgb[1], rgb[2]);
+
+                            //result string
+                            var result = settings.rgbResult ? rgbResult : hex;
+
+                            //call events
+                            settings.onChange(result);
+                        }
+
+                    }, settings.html2canvas)
+
                     //if not toggler
                     if (!$target.is($el)) {
-                        html2canvas(document.body, {
-                            useCORS: true,
-                            logging: settings.debug,
-                            profile: settings.debug,
-                            onrendered: function (canvas) {
-                                var
-                                    rgb = canvas.getContext('2d').getImageData(e.pageX, e.pageY, 1, 1).data,
-                                    rgbResult = 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')',
-                                    hex = lib.rgbToHex(rgb[0], rgb[1], rgb[2]);
-
-                                //result string
-                                var result = settings.rgbResult ? rgbResult : hex;
-
-                                //call events
-                                settings.onChange(result);
-                            }
-                        });
+                        html2canvas(document.body, html2canvasSettings);
                     }
                     e.preventDefault();
                 }
