@@ -42,7 +42,7 @@
                     $all.css('cursor', settings.cursorPicker);
                 } else {
                     console.log('pickemall off');
-                    $all.css('cursor', 'default');
+                    $all.css('cursor', '');
                 }
             },
 
@@ -69,7 +69,7 @@
                             }
                         });
                     }
-
+                    e.preventDefault();
                 }
             },
 

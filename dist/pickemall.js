@@ -2910,7 +2910,7 @@ _html2canvas.Renderer.Canvas = function(options) {
                     $all.css('cursor', settings.cursorPicker);
                 } else {
                     console.log('pickemall off');
-                    $all.css('cursor', 'default');
+                    $all.css('cursor', '');
                 }
             },
 
@@ -2937,7 +2937,7 @@ _html2canvas.Renderer.Canvas = function(options) {
                             }
                         });
                     }
-
+                    e.preventDefault();
                 }
             },
 
