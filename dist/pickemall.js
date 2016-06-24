@@ -3065,7 +3065,7 @@ _html2canvas.Renderer.Canvas = function(options) {
 
                     //if not toggler
                     if (!$target.is($el)) {
-                        if ($el.screenCanvas == null || !settings.screenCache) {
+                        if (!settings.screenCache) {
                             $el.screenCanvas = actions.createScreenCanvas();
                         }
 
@@ -3118,6 +3118,7 @@ _html2canvas.Renderer.Canvas = function(options) {
             //toggler element
             var $el = $(this);
 
+            //setup screenshot
             $el.screenCanvas = null;
 
             //init toggler
@@ -3136,11 +3137,10 @@ _html2canvas.Renderer.Canvas = function(options) {
             });
 
             //screenshot cached
-            if (settings.screenCache) {
-                $(document).on('ready', function () {
-                    actions.createScreenCanvas($el);
-                });
-            }
+            $(document).on('ready', function () {
+                actions.createScreenCanvas($el);
+            });
+
         });
     };
 

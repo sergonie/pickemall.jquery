@@ -60,7 +60,7 @@
 
                     //if not toggler
                     if (!$target.is($el)) {
-                        if ($el.screenCanvas == null || !settings.screenCache) {
+                        if (!settings.screenCache) {
                             $el.screenCanvas = actions.createScreenCanvas();
                         }
 
@@ -113,6 +113,7 @@
             //toggler element
             var $el = $(this);
 
+            //setup screenshot
             $el.screenCanvas = null;
 
             //init toggler
@@ -131,11 +132,10 @@
             });
 
             //screenshot cached
-            if (settings.screenCache) {
-                $(document).on('ready', function () {
-                    actions.createScreenCanvas($el);
-                });
-            }
+            $(document).on('ready', function () {
+                actions.createScreenCanvas($el);
+            });
+
         });
     };
 
