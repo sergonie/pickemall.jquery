@@ -10,18 +10,22 @@
             activeClass: 'pickemall__on',
             cursorPicker: 'crosshair',
             rgbResult: false,
+            screenCache: true,
             onChange: function (color) {
                 console.log('Your picked color:', color);
             },
-            debug: false,
             html2canvas: {}
         };
 
         //setup settings
         var settings = $.extend({}, defaults, options);
 
+        //cache canvas
+        var screenCanvas = null;
+
         //other functions...
         var lib = {
+
             //convert rgb values to hex string
             rgbToHex: function rgbToHex(r, g, b) {
                 if (r > 255 || g > 255 || b > 255) {
@@ -54,26 +58,22 @@
                 if ($el.hasClass(settings.activeClass)) {
                     var $target = $(e.target);
 
-                    //setup html2canvas
-                    var html2canvasSettings = $.extend({}, {
-                        onrendered: function (canvas) {
-                            var
-                                rgb = canvas.getContext('2d').getImageData(e.pageX, e.pageY, 1, 1).data,
-                                rgbResult = 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')',
-                                hex = lib.rgbToHex(rgb[0], rgb[1], rgb[2]);
-
-                            //result string
-                            var result = settings.rgbResult ? rgbResult : hex;
-
-                            //call events
-                            settings.onChange(result);
-                        }
-
-                    }, settings.html2canvas)
-
                     //if not toggler
                     if (!$target.is($el)) {
-                        html2canvas(document.body, html2canvasSettings);
+                        if ($el.screenCanvas == null || !settings.screenCache) {
+                            $el.screenCanvas = actions.createScreenCanvas();
+                        }
+
+                        var
+                            rgb = $el.screenCanvas.getImageData(e.pageX, e.pageY, 1, 1).data,
+                            rgbResult = 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')',
+                            hex = lib.rgbToHex(rgb[0], rgb[1], rgb[2]);
+
+                        //result string
+                        var result = settings.rgbResult ? rgbResult : hex;
+
+                        //call events
+                        settings.onChange(result);
                     }
                     e.preventDefault();
                 }
@@ -91,6 +91,20 @@
                     default:
                         break;
                 }
+            },
+
+            //create screenshot
+            createScreenCanvas: function ($el) {
+
+                //setup html2canvas
+                var html2canvasSettings = $.extend({}, settings.html2canvas, {
+                    onrendered: function (canvas) {
+                        $el.screenCanvas = canvas.getContext('2d');
+                    }
+                });
+
+                //execute
+                return html2canvas(document.body, html2canvasSettings);
             }
         };
 
@@ -98,6 +112,8 @@
         return this.each(function () {
             //toggler element
             var $el = $(this);
+
+            $el.screenCanvas = null;
 
             //init toggler
             $el.addClass(settings.buttonClass).on('click', function () {
@@ -114,6 +130,12 @@
                 actions.pickColor(e, $el);
             });
 
+            //screenshot cached
+            if (settings.screenCache) {
+                $(document).on('ready', function () {
+                    actions.createScreenCanvas($el);
+                });
+            }
         });
     };
 
