@@ -3026,7 +3026,9 @@ _html2canvas.Renderer.Canvas = function(options) {
         var settings = $.extend({}, defaults, options);
 
         //cache canvas
-        var screenCanvas = null;
+        var cache = {
+            screen: null
+        };
 
         //other functions...
         var lib = {
@@ -3065,12 +3067,12 @@ _html2canvas.Renderer.Canvas = function(options) {
 
                     //if not toggler
                     if (!$target.is($el)) {
-                        if (!settings.screenCache) {
-                            $el.screenCanvas = actions.createScreenCanvas();
+                        if (!settings.screenCache || (settings.screenCache && typeof cache.screen === 'undefined')) {
+                            actions.createScreenCanvas();
                         }
 
                         var
-                            rgb = $el.screenCanvas.getImageData(e.pageX, e.pageY, 1, 1).data,
+                            rgb = cache.screen.getImageData(e.pageX, e.pageY, 1, 1).data,
                             rgbResult = 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')',
                             hex = lib.rgbToHex(rgb[0], rgb[1], rgb[2]);
 
@@ -3104,7 +3106,7 @@ _html2canvas.Renderer.Canvas = function(options) {
                 //setup html2canvas
                 var html2canvasSettings = $.extend({}, settings.html2canvas, {
                     onrendered: function (canvas) {
-                        $el.screenCanvas = canvas.getContext('2d');
+                        cache.screen = canvas.getContext('2d');
                     }
                 });
 
@@ -3138,7 +3140,7 @@ _html2canvas.Renderer.Canvas = function(options) {
 
             //screenshot cached
             $(document).on('ready', function () {
-                actions.createScreenCanvas($el);
+                actions.createScreenCanvas();
             });
 
         });
